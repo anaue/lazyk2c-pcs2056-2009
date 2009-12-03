@@ -134,6 +134,10 @@ namespace APE
                 }
                 return false;
             }
+            catch (StackOverflowException sox)
+            {
+                throw sox;
+            }
             catch (Exception ex)
             {
                 throw ex;

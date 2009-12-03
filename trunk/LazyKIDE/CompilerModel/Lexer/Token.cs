@@ -8,26 +8,21 @@ namespace CompilerModel.Lexer
         public int tag;
         public int Line;
 
-        public Token(String ttag)
+        public Token(Char ttag)
         {
-            //string[] names = Enum.GetNames(typeof(Tag));
-            //bool tagFound = false;
-            //foreach (string item in names)
-            //{
-            //    if (item == ttag)
-            //    {
-            //        tag = (int)((Tag)Enum.Parse(typeof(Tag), ttag.ToUpper().Trim()));
-            //        tagFound = true;
-            //        break;
-            //    }
-            //}
-            //if (!tagFound)
-            //{
-                if (ttag.Length == 1)
-                    tag = (int)Convert.ToChar(ttag);
-                else
-                    throw new ApplicationException("Token " + ttag + " not found.");
-            //}
+            int itag = (int)ttag;
+            Array values = Enum.GetValues(typeof(Tag));
+            bool tagFound = false;
+            foreach (int item in values)
+            {
+                if (item == ttag)
+                {
+                    tag = ttag;
+                    tagFound = true;
+                    break;
+                }
+            }
+            if(!tagFound) throw new ApplicationException("Token " + ttag + " not found.");
         }
 
         public Token(int t, int line)
