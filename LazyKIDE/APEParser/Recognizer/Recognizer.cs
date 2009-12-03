@@ -53,83 +53,91 @@ namespace APE
         /// <returns></returns>
         public bool RunTransition(Token input, Token nextToken)
         {
-            if (input == null)
-                return false;
-            //Preferencialmente, procura-se transicoes internas
-            List<Transition> internalTransitions = CurrentState.Transitions.FindAll(In => In.GetType() != typeof(SubmachineCall));
-            foreach (Transition tr in internalTransitions)
+            try
             {
-                if (tr.Input.tag == input.tag) //Achou transicao interna que consome o token
+                if (input == null)
+                    return false;
+                //Preferencialmente, procura-se transicoes internas
+                List<Transition> internalTransitions = CurrentState.Transitions.FindAll(In => In.GetType() != typeof(SubmachineCall) && In.Input.Equals(input));
+                if (internalTransitions.Count > 0)
                 {
-                    CurrentState = CurrentAutomaton.States.Find(In => In.Id == tr.NextState.Id);
-                    
-                    //Chamada da acao semantica
-                    RunSemanticAction(tr.SemanticActionName, input);
-
-                    if (CurrentState.FinalState && !CheckLookAhead(CurrentState, nextToken))
+                    Transition tr = internalTransitions[0];
+                    if (tr.Input.tag == input.tag) //Achou transicao interna que consome o token
                     {
-                        if (!_stack.Empty)
+                        CurrentState = CurrentAutomaton.States.Find(In => In.Id == tr.NextState.Id);
+
+                        //Chamada da acao semantica
+                        RunSemanticAction(tr.SemanticActionName, input);
+
+                        if (CurrentState.FinalState && !CheckLookAhead(CurrentState, nextToken))
                         {
-                            StackPair stackPair = (StackPair)_stack.Pop();
-                            GoToSubmachine(stackPair.Automaton, stackPair.State);
+                            if (!_stack.Empty)
+                            {
+                                StackPair stackPair = (StackPair)_stack.Pop();
+                                GoToSubmachine(stackPair.Automaton, stackPair.State);
+                            }
+
+                            return true;
                         }
 
                         return true;
                     }
-
-                    return true;
                 }
-            } 
-            
-            //Nao achou nenhuma transicao interna para o token, tenta uma submaquina
 
-            List<Transition> listSubmachineCall = CurrentState.Transitions.FindAll(In => In.GetType() == typeof(SubmachineCall));
-            if (listSubmachineCall.Count > 0)
-            {
-                if (listSubmachineCall.Count == 1) //Encontrou uma submaquina para fazer a chamada. A executa.
-                {
-                    SubmachineCall call = ((SubmachineCall)listSubmachineCall[0]);
+                //Nao achou nenhuma transicao interna para o token, tenta uma submaquina
 
-                    _stack.Push(new StackPair(CurrentAutomaton, call.NextState));
-                    GoToSubmachine(call.CalledAutomaton);
-                    RunTransition(input, nextToken);
-                    //Chamada da acao semantica no retorno da submaquina
-                    RunSemanticAction(call.SemanticActionName, input);
-                    return true;
-                }
-                else
-                //Ha' nao-determinismo pois ha mais de uma chamada de submaquina para esse estado. Tentar achar o destino olhando o follow.
+                List<Transition> listSubmachineCall = CurrentState.Transitions.FindAll(In => In.GetType() == typeof(SubmachineCall));
+                if (listSubmachineCall.Count > 0)
                 {
-                    //Olha o FOLLOW
-                    foreach (Transition tr in listSubmachineCall)
+                    if (listSubmachineCall.Count == 1) //Encontrou uma submaquina para fazer a chamada. A executa.
                     {
-                        SubmachineCall sc = ((SubmachineCall)tr);
-                        //Devo verificar se o proximo token condiz com uma das submaquinas.
-                        if (sc.CalledAutomaton.Start.HasTranstionsForToken(input))
+                        SubmachineCall call = ((SubmachineCall)listSubmachineCall[0]);
+
+                        _stack.Push(new StackPair(CurrentAutomaton, call.NextState));
+                        GoToSubmachine(call.CalledAutomaton);
+                        RunTransition(input, nextToken);
+                        //Chamada da acao semantica no retorno da submaquina
+                        RunSemanticAction(call.SemanticActionName, input);
+                        return true;
+                    }
+                    else
+                    //Ha' nao-determinismo pois ha mais de uma chamada de submaquina para esse estado. Tentar achar o destino olhando o follow.
+                    {
+                        //Olha o FOLLOW
+                        foreach (Transition tr in listSubmachineCall)
                         {
-                            _stack.Push(new StackPair(CurrentAutomaton, sc.NextState));
-                            GoToSubmachine(sc.CalledAutomaton);
-                            RunTransition(input, nextToken);
-                            return true;
+                            SubmachineCall sc = ((SubmachineCall)tr);
+                            //Devo verificar se o proximo token condiz com uma das submaquinas.
+                            if (sc.CalledAutomaton.Start.HasTranstionsForToken(input))
+                            {
+                                _stack.Push(new StackPair(CurrentAutomaton, sc.NextState));
+                                GoToSubmachine(sc.CalledAutomaton);
+                                RunTransition(input, nextToken);
+                                return true;
+                            }
                         }
                     }
                 }
-            }
 
-            //Se nao achou transicao interna nem submaquina, verifica se e' estado final de uma
-            //submaquina, caso contrario, retorna erro sintatico.
-            if (CurrentState.FinalState && !CheckLookAhead(CurrentState, input))
-            {
-                if (!_stack.Empty)
+                //Se nao achou transicao interna nem submaquina, verifica se e' estado final de uma
+                //submaquina, caso contrario, retorna erro sintatico.
+                if (CurrentState.FinalState && !CheckLookAhead(CurrentState, input))
                 {
-                    StackPair stackPair = (StackPair)_stack.Pop();
-                    GoToSubmachine(stackPair.Automaton, stackPair.State);
-                    RunTransition(input, nextToken);
-                }
+                    if (!_stack.Empty)
+                    {
+                        StackPair stackPair = (StackPair)_stack.Pop();
+                        GoToSubmachine(stackPair.Automaton, stackPair.State);
+                        RunTransition(input, nextToken);
+                    }
 
-                return true;
+                    return true;
+                }
+                return false;
             }
-            return false;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -139,7 +147,7 @@ namespace APE
         /// <param name="currentEnvironment">Ambiente corrente</param>
         public void RunSemanticAction(String semanticActionName, Token input)
         {
-            MethodInfo methodInfo = typeof(SemanticActions).GetMethod(semanticActionName,new[]{typeof(Env), typeof(Token)});
+            MethodInfo methodInfo = typeof(SemanticActions).GetMethod(semanticActionName,new[]{typeof(Token)});
             // Use the instance to call the method without arguments
             methodInfo.Invoke(Semantic, new Object []{input});
             CompilerModel.Trace.Tracer.putLog("Called Method: " + semanticActionName, MethodInfo.GetCurrentMethod().ReflectedType.ToString());
@@ -188,24 +196,30 @@ namespace APE
         /// <returns></returns>
         public bool Recognize(Input chain)
         {
-            int i=0;
-            bool error = false;
-            //while (!(CurrentState.FinalState && i < chain.Length && !StateHasTransitionsForToken(CurrentState, chain[i])))
-            while (!(CurrentState.FinalState && _stack.Empty))
+            try
             {
-                //if (!RunTransition(chain[i], i < chain.Length - 1 ? chain[i + 1] : null))
-                if (!RunTransition(chain.getNext(), chain.getLookAHead()))
+                int i = 0;
+                bool error = false;
+                //while (!(CurrentState.FinalState && i < chain.Length && !StateHasTransitionsForToken(CurrentState, chain[i])))
+                while (!(CurrentState.FinalState && _stack.Empty))
                 {
-                    error = true;
-                    break;
+                    //if (!RunTransition(chain[i], i < chain.Length - 1 ? chain[i + 1] : null))
+                    if (!RunTransition(chain.getNext(), chain.getLookAHead()))
+                    {
+                        error = true;
+                        break;
+                    }
+                    i++;
                 }
-                i++;
+                if (error)
+                    throw new ApplicationException("Syntax Error: Token Number " + i);
+                else
+                    return true;
             }
-
-            if (error)
-                throw new ApplicationException("Syntax Error: Token Number " + i);
-            else 
-                return true;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
