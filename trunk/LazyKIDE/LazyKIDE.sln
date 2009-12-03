@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LazyKIDE", "LazyKIDE\LazyKIDE.csproj", "{72CDE0DF-AABA-4716-80D8-DE2E17E7696C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APE", "..\..\LazyK\Compilador Live+\CompilatorLivePlus\APEParser\APE.csproj", "{43F86D01-DF12-4C91-839D-35D407E22FAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompilerModel", "..\..\LazyK\Compilador Live+\CompilatorLivePlus\CompilerModel\CompilerModel.csproj", "{61D525FE-0447-4373-81D2-E2C0B7D11D45}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{72CDE0DF-AABA-4716-80D8-DE2E17E7696C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72CDE0DF-AABA-4716-80D8-DE2E17E7696C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72CDE0DF-AABA-4716-80D8-DE2E17E7696C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72CDE0DF-AABA-4716-80D8-DE2E17E7696C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43F86D01-DF12-4C91-839D-35D407E22FAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43F86D01-DF12-4C91-839D-35D407E22FAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43F86D01-DF12-4C91-839D-35D407E22FAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43F86D01-DF12-4C91-839D-35D407E22FAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61D525FE-0447-4373-81D2-E2C0B7D11D45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61D525FE-0447-4373-81D2-E2C0B7D11D45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61D525FE-0447-4373-81D2-E2C0B7D11D45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61D525FE-0447-4373-81D2-E2C0B7D11D45}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
