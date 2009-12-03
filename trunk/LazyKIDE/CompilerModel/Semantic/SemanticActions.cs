@@ -64,6 +64,7 @@ namespace CompilerModel.Semantic
         {
             _out = new Output(outputFile);
             _out.WriteCCodeLine("//NovaExpressao\r\n#include <stdio.h>");
+
         }
 
         public void SaveOutput()
