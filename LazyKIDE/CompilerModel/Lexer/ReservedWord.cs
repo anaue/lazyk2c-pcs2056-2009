@@ -17,6 +17,7 @@ namespace CompilerModel.Lexer
         RIGHTPAR = 41,
         STAR = 42,
         ZERO = 48,
-        ONE = 49,        
+        ONE = 49,
+        NULL = 0
     }
 }

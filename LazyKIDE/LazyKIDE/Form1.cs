@@ -62,6 +62,7 @@ namespace LazyKIDE
                 Console.Write(":: Compiling... ");
 
                 int i = 0; //Just a help to debug this code w/ conditional breakpoints, can be removed later.
+                
                 while (inputChain.hasNext())
                 {
                     Token currentToken, nextToken;
@@ -80,7 +81,6 @@ namespace LazyKIDE
 
                         break;
                     }
-
                     i++;
                 }
 

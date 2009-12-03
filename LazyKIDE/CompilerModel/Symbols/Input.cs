@@ -55,7 +55,7 @@ namespace CompilerModel.Symbols
         }
         public void resetNext()
         {
-            next =1;
+            next =0;
         }
         //public void LookedAHead()
         //{
