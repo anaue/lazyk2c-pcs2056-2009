@@ -56,35 +56,35 @@ namespace CompilerModel.Lexer
         }
         public Token scan()
         {
-            for (; ; peek = (char)sr.Read())
-            {
-                if (Character.isWhiteSpace(peek) || Character.isTabSpace(peek) || Character.isLineFeed(peek)) continue;
-                if (peek == 47) // char / comentario
-                {
-                    peek = (char)sr.Read();
-
-                    if (peek == 47) // char 
-                    {
-                        while (!Character.isCarriegeReturn(peek))
-                        {
-                            peek = (char)sr.Read();
-                        }
-                    }
-                    else
-                    {
-                        return new Token(47, line);
-                    }
-                }
-                if (Character.isCarriegeReturn(peek))
-                {
-                    line = line + 1;
-                }
-                else break;
-            }
-
-            Token t = new Token(peek, line);
             peek = (char)sr.Read();
-            return t;
+
+            if (Character.isWhiteSpace(peek) || Character.isTabSpace(peek) || Character.isLineFeed(peek)) return scan();
+            if (peek == 47) // char / comentario
+            {
+                peek = (char)sr.Read();
+
+                if (peek == 47) // char 
+                {
+                    while (!Character.isCarriegeReturn(peek))
+                    {
+                        peek = (char)sr.Read();
+                    }
+                }
+                else
+                {
+                    return new Token(47, line);
+                }
+            }
+            if (Character.isCarriegeReturn(peek))
+            {
+                line = line + 1;
+                return scan();
+            }
+            else
+            {
+                Token t = new Token(peek, line);
+                return t;
+            }
 
         }
         public bool hasEnded()

@@ -27,8 +27,18 @@ namespace CompilerModel.Lexer
 
         public Token(int t, int line)
         {
-            tag = t;
-            Line = line;
+            Array values = Enum.GetValues(typeof(Tag));
+            bool tagFound = false;
+            foreach (int item in values)
+            {
+                if (item == t)
+                {
+                    tag = t;
+                    Line = line;
+                    tagFound = true;
+                }
+            }
+            if (!tagFound) throw new ApplicationException("Token " + t + " not found.");
         }
 
         public override string ToString()
