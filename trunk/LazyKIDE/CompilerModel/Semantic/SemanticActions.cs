@@ -63,6 +63,7 @@ namespace CompilerModel.Semantic
         public SemanticActions(string outputFile)
         {
             _out = new Output(outputFile);
+            _out.WriteCCodeLine("//NovaExpressao\r\n#include <stdio.h>");
         }
 
         public void SaveOutput()
@@ -74,7 +75,7 @@ namespace CompilerModel.Semantic
 
         public void S_NEJE_1(Token _tok)
         {
-
+            //_out.WriteCCodeLine("K");
         }
         public void S_NEJE_2(Token _tok)
         {
@@ -84,89 +85,65 @@ namespace CompilerModel.Semantic
         {
 
         }
-        public void S_NEJE_4(Token _tok)
-        {
-
-        }
-        public void S_NEJE_5(Token _tok)
-        {
-
-        }
         public void S_PROGRAM_1(Token _tok)
         {
-
+            
         }
-        public void S_PROGRAM_2(Token _tok)
+        public void S_EXPR_i(Token _tok)
         {
-
+            _out.WriteCCodeLine("//got_i");
         }
-        public void S_PROGRAM_3(Token _tok)
+        public void S_EXPR_I(Token _tok)
         {
-
+            _out.WriteCCodeLine("//got_I");
         }
-        public void S_PROGRAM_4(Token _tok)
+        public void S_EXPR_K(Token _tok)
         {
-
+            _out.WriteCCodeLine("//got_K");
         }
-        public void S_EXPR_1(Token _tok)
+        public void S_EXPR_k(Token _tok)
         {
-
+            _out.WriteCCodeLine("//got_k");
         }
-        public void S_EXPR_2(Token _tok)
+        public void S_EXPR_S(Token _tok)
         {
-
+            _out.WriteCCodeLine("//got_S");
         }
-        public void S_EXPR_3(Token _tok)
+        public void S_EXPR_s(Token _tok)
         {
-
+            _out.WriteCCodeLine("//got_s");
         }
-        public void S_EXPR_4(Token _tok)
+        public void S_EXPR_Jot(Token _tok)
         {
-
+            _out.WriteCCodeLine("//got_Jot");
         }
-        public void S_EXPR_5(Token _tok)
+        public void S_EXPR_CRASIS(Token _tok)
         {
-
+            _out.WriteCCodeLine("//got_crase");
         }
-        public void S_EXPR_6(Token _tok)
+        public void S_EXPR_STAR(Token _tok)
         {
-
+            _out.WriteCCodeLine("//got_star");
         }
-        public void S_EXPR_7(Token _tok)
+        public void S_EXPR_LEFTPAR(Token _tok)
         {
-
+            _out.WriteCCodeLine("//got_(");
         }
-        public void S_EXPR_8(Token _tok)
+        public void S_EXPR_EXPR2(Token _tok)
         {
-
+            _out.WriteCCodeLine("//got_Expr2");
         }
-        public void S_EXPR_9(Token _tok)
+        public void S_EXPR_EXPR3(Token _tok)
         {
-
+            _out.WriteCCodeLine("//got_Expr3");
         }
-        public void S_EXPR_10(Token _tok)
+        public void S_EXPR_RIGHTPAR(Token _tok)
         {
-
+            _out.WriteCCodeLine("//got_)");
         }
-        public void S_EXPR_11(Token _tok)
+        public void S_EXPR_EXPR4(Token _tok)
         {
-
-        }
-        public void S_EXPR_12(Token _tok)
-        {
-
-        }
-        public void S_EXPR_13(Token _tok)
-        {
-
-        }
-        public void S_EXPR_14(Token _tok)
-        {
-
-        }
-        public void S_EXPR_15(Token _tok)
-        {
-
+            _out.WriteCCodeLine("//got_Expr4");
         }
 
         #endregion Lazy K
@@ -411,11 +388,11 @@ namespace CompilerModel.Semantic
 
         //public void AS_CODIGO_START(Env _environment, Token _tok)
         //{
-        //    //_out.WriteCode("INPUT K /0");
-        //    _out.WriteCode("JP INICIO");
-        //    _out.WriteCode(REG1+" K /0"); // CRIA UMA VARIAVEL AUXILIAR PARA CONTAS
-        //    _out.WriteCode(REG2+" K /0"); // CRIA UMA VARIAVEL AUXILIAR PARA CONTAS
-        //    _out.WriteCode(REG3 + " K /0"); // CRIA UMA VARIAVEL AUXILIAR PARA CONTAS
+        //    //_out.WriteCCodeLine("INPUT K /0");
+        //    _out.WriteCCodeLine("JP INICIO");
+        //    _out.WriteCCodeLine(REG1+" K /0"); // CRIA UMA VARIAVEL AUXILIAR PARA CONTAS
+        //    _out.WriteCCodeLine(REG2+" K /0"); // CRIA UMA VARIAVEL AUXILIAR PARA CONTAS
+        //    _out.WriteCCodeLine(REG3 + " K /0"); // CRIA UMA VARIAVEL AUXILIAR PARA CONTAS
 
         //}
 

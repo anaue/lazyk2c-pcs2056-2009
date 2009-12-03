@@ -123,7 +123,7 @@ namespace APE.Parser
                             else if (pair[1].Contains("\""))
                             {
                                 Token token;
-                                token = new Token(pair[1].Trim('"').ToUpper());
+                                token = new Token(pair[1].Trim('"'));
                                 currentState.addTransition(new Transition(token, nextState, semanticActionName));
                             }
                             else

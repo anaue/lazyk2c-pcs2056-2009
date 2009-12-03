@@ -30,14 +30,15 @@ namespace CompilerModel.APE
                 States.Add(state);
             else
             {
-                updateState(state.Id, state.Transitions);
+                updateState(state, state.Transitions);
             }
         }
 
-        public void updateState(int id, List<Transition> transitions)
+        public void updateState(State st, List<Transition> transitions)
         {
-            State temp = States.Find(a => a.Id == id);
+            State temp = States.Find(a => a.Id == st.Id);
             temp.Transitions.AddRange(transitions);
+            temp.FinalState = st.FinalState;
         }
 
     }

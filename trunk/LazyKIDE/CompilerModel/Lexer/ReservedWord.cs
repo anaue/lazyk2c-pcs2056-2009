@@ -11,7 +11,7 @@ namespace CompilerModel.Lexer
         UPPERI = 73,
         LOWERK = 107,
         LOWERS = 115,
-        LOWERI = 262,
+        LOWERI = 105,
         CRAZY = 96,
         LEFTPAR = 40,
         RIGHTPAR = 41,

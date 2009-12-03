@@ -24,6 +24,12 @@ namespace CompilerModel.Semantic
             _reservedArea = new StringBuilder();
         }
 
+        public void WriteCCodeLine(string codeLine)
+        {
+            _output.AppendLine(codeLine);
+            LineCode++;
+        }
+
         public void WriteCode(string codeLine)
         {
             _output.AppendLine(_label + "\t" + codeLine);

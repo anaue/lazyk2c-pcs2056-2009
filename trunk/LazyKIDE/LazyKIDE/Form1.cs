@@ -30,61 +30,74 @@ namespace LazyKIDE
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string inputExpression = textBoxCode.Text;
-            File.CreateText("temp.lk").WriteLine(inputExpression);
-
-            APEParser parser = new APEParser();
-
-            StackAutomaton ape = parser.GetStackAutomaton();
-
-            Recognizer recognizer = new Recognizer(ape, textBoxOutputName.Text);
-
-            Lexer _lexer = new Lexer("temp.lk");
-
-            //An input is used here to act returning tokens to sintatic as a buffer.
-            Input inputChain = new CompilerModel.Symbols.Input();
-            while (!_lexer.hasEnded())
+            try
             {
-                Token escan = _lexer.scan();
-                inputChain.Add(escan);
-            }
-            inputChain.resetNext();
+                string inputExpression = textBoxCode.Text;
+                StreamWriter sw = File.CreateText("temp.lk");
+                sw.Write(inputExpression);
+                sw.Close();
+                sw.Dispose();
 
-            Console.WriteLine("Done!");
 
-            //Recognizer                    
-            Console.Write(":: Compiling... ");
+                APEParser parser = new APEParser();
 
-            int i = 0; //Just a help to debug this code w/ conditional breakpoints, can be removed later.
-            while (inputChain.hasNext())
-            {
-                Token currentToken, nextToken;
+                StackAutomaton ape = parser.GetStackAutomaton();
 
-                currentToken = inputChain.getNext();
-                nextToken = inputChain.getLookAHead();
+                Recognizer recognizer = new Recognizer(ape, textBoxOutputName.Text);
 
-                if (!recognizer.RunTransition(currentToken, nextToken))
+                Lexer _lexer = new Lexer("temp.lk");
+
+                //An input is used here to act returning tokens to sintatic as a buffer.
+                Input inputChain = new CompilerModel.Symbols.Input();
+                while (!_lexer.hasEnded())
                 {
-                    //ERRO!!
-                    Console.WriteLine("\n\n!! Syntax Error: Line " + currentToken.Line + ", Token " + currentToken.tag + " (ASCII Code) not recognized.");
-                    Console.WriteLine("!! Current Automaton: " + recognizer.CurrentAutomaton.Name);
-                    Console.WriteLine("!! Current State: " + recognizer.CurrentState.Id);
-                    Console.WriteLine("!! Stack: " + GetStackAutomatonNames(recognizer.Stack));
-                    Console.WriteLine("!! i: " + i);
+                    Token escan = _lexer.scan();
+                    inputChain.Add(escan);
+                }
+                inputChain.resetNext();
 
-                    break;
+                Console.WriteLine("Done!");
+
+                //Recognizer                    
+                Console.Write(":: Compiling... ");
+
+                int i = 0; //Just a help to debug this code w/ conditional breakpoints, can be removed later.
+                while (inputChain.hasNext())
+                {
+                    Token currentToken, nextToken;
+
+                    currentToken = inputChain.getNext();
+                    nextToken = inputChain.getLookAHead();
+
+                    if (!recognizer.RunTransition(currentToken, nextToken))
+                    {
+                        //ERRO!!
+                        Console.WriteLine("\n\n!! Syntax Error: Line " + currentToken.Line + ", Token " + currentToken.tag + " (ASCII Code) not recognized.");
+                        Console.WriteLine("!! Current Automaton: " + recognizer.CurrentAutomaton.Name);
+                        Console.WriteLine("!! Current State: " + recognizer.CurrentState.Id);
+                        Console.WriteLine("!! Stack: " + GetStackAutomatonNames(recognizer.Stack));
+                        Console.WriteLine("!! i: " + i);
+
+                        break;
+                    }
+
+                    i++;
                 }
 
-                i++;
+                if (recognizer.CurrentState.FinalState && recognizer.Stack.Empty)
+                {
+                    recognizer.Semantic.SaveOutput();
+                    Console.WriteLine("Done!");
+                    string output = File.ReadAllText(textBoxOutputName.Text);
+                    textBoxCOutput.Text = output;
+                }
+                else
+                    Console.WriteLine("!! Syntax errors detected. Recognizer terminated.");
             }
-
-            if (recognizer.CurrentState.FinalState && recognizer.Stack.Empty)
+            catch (Exception ex)
             {
-                recognizer.Semantic.SaveOutput();
-                Console.WriteLine("Done!");
+                MessageBox.Show(ex.Message);
             }
-            else
-                Console.WriteLine("!! Sytax errors detected. Recognizer terminated.");
 
         }
 
