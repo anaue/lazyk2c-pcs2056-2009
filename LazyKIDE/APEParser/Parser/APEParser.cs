@@ -108,22 +108,23 @@ namespace APE.Parser
                             }
 
                             
-                            if (pair[1].Contains("_COMMA"))
+                            //if (pair[1].Contains("_COMMA"))
+                            //{
+                            //    Token token;
+                            //    token = new Token(",");
+                            //    currentState.addTransition(new Transition(token, nextState, semanticActionName));
+                            //}
+                            //else if (pair[1].Contains("_QUOTE"))
+                            //{
+                            //    Token token;
+                            //    token = new Token("\"");
+                            //    currentState.addTransition(new Transition(token, nextState, semanticActionName));
+                            //}
+                            //else 
+                            if (pair[1].Contains("\""))
                             {
                                 Token token;
-                                token = new Token(",");
-                                currentState.addTransition(new Transition(token, nextState, semanticActionName));
-                            }
-                            else if (pair[1].Contains("_QUOTE"))
-                            {
-                                Token token;
-                                token = new Token("\"");
-                                currentState.addTransition(new Transition(token, nextState, semanticActionName));
-                            }
-                            else if (pair[1].Contains("\""))
-                            {
-                                Token token;
-                                token = new Token(pair[1].Trim('"'));
+                                token = new Token(Convert.ToChar(pair[1].Trim('"')));
                                 currentState.addTransition(new Transition(token, nextState, semanticActionName));
                             }
                             else
