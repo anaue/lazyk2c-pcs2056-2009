@@ -1,0 +1,17 @@
+﻿name: expr
+initial: 0
+final: 1
+(0, "i") -> 1 & S_EXPR_1
+(0, "I") -> 1 & S_EXPR_2
+(0, "K") -> 1 & S_EXPR_3
+(0, "k") -> 1 & S_EXPR_4
+(0, "S") -> 1 & S_EXPR_5
+(0, "s") -> 1 & S_EXPR_6
+(0, NonEmptyJotExpr) -> 1 & S_EXPR_7
+(0, "`") -> 2 & S_EXPR_8
+(0, "*") -> 2 & S_EXPR_9
+(0, "(") -> 3 & S_EXPR_10
+(2, Expr) -> 4 & S_EXPR_11
+(3, Expr) -> 3 & S_EXPR_12
+(3, ")") -> 1 & S_EXPR_13
+(4, Expr) -> 1 & S_EXPR_14

@@ -1,0 +1,6 @@
+﻿name: NonEmptyJotExpr
+initial: 0
+final: 1
+(0, NonEmptyJotExpr) -> 0 & S_NEJE_1
+(0, "0") -> 1 & S_NEJE_2
+(0, "1") -> 1 & S_NEJE_3

@@ -1,0 +1,5 @@
+﻿name: program
+initial: 0
+final: 1
+(0, Expr) -> 1 & S_PROGRAM_1
+(1, Expr) -> 1 & S_PROGRAM_2
