@@ -13,23 +13,6 @@ namespace CompilerModel.Lexer
             ttag = ttag.ToUpper();
             string[] names = Enum.GetNames(typeof(Tag));
             bool tagFound = false;
-            switch (ttag)
-            {
-                case "==":
-                    ttag = "EQUAL";
-                    break;
-                case "!=":
-                    ttag = "NEQUAL";
-                    break;
-                case ">=":
-                    ttag = "GEQUAL";
-                    break;
-                case "<=":
-                    ttag = "LEQUAL";
-                    break;
-                default:
-                    break;
-            }
             foreach (string item in names)
             {
                 if (item == ttag)

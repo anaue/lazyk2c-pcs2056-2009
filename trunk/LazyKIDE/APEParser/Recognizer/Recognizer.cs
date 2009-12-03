@@ -51,7 +51,7 @@ namespace APE
         /// <param name="nextToken"></param>
         /// <param name="currentEnvironment"></param>
         /// <returns></returns>
-        public bool RunTransition(Token input, Token nextToken, Env currentEnvironment)
+        public bool RunTransition(Token input, Token nextToken)
         {
             if (input == null)
                 return false;
@@ -64,7 +64,7 @@ namespace APE
                     CurrentState = CurrentAutomaton.States.Find(In => In.Id == tr.NextState.Id);
                     
                     //Chamada da acao semantica
-                    RunSemanticAction(tr.SemanticActionName, currentEnvironment, input);
+                    RunSemanticAction(tr.SemanticActionName, input);
 
                     if (CurrentState.FinalState && !CheckLookAhead(CurrentState, nextToken))
                     {
@@ -92,9 +92,9 @@ namespace APE
 
                     _stack.Push(new StackPair(CurrentAutomaton, call.NextState));
                     GoToSubmachine(call.CalledAutomaton);
-                    RunTransition(input, nextToken, currentEnvironment);
+                    RunTransition(input, nextToken);
                     //Chamada da acao semantica no retorno da submaquina
-                    RunSemanticAction(call.SemanticActionName, currentEnvironment, input);
+                    RunSemanticAction(call.SemanticActionName, input);
                     return true;
                 }
                 else
@@ -109,7 +109,7 @@ namespace APE
                         {
                             _stack.Push(new StackPair(CurrentAutomaton, sc.NextState));
                             GoToSubmachine(sc.CalledAutomaton);
-                            RunTransition(input, nextToken, currentEnvironment);
+                            RunTransition(input, nextToken);
                             return true;
                         }
                     }
@@ -124,7 +124,7 @@ namespace APE
                 {
                     StackPair stackPair = (StackPair)_stack.Pop();
                     GoToSubmachine(stackPair.Automaton, stackPair.State);
-                    RunTransition(input, nextToken, currentEnvironment);
+                    RunTransition(input, nextToken);
                 }
 
                 return true;
@@ -137,11 +137,11 @@ namespace APE
         /// </summary>
         /// <param name="semanticActionName">Nome da Acao semantica</param>
         /// <param name="currentEnvironment">Ambiente corrente</param>
-        public void RunSemanticAction(String semanticActionName, Env currentEnvironment, Token input)
+        public void RunSemanticAction(String semanticActionName, Token input)
         {
             MethodInfo methodInfo = typeof(SemanticActions).GetMethod(semanticActionName,new[]{typeof(Env), typeof(Token)});
             // Use the instance to call the method without arguments
-            methodInfo.Invoke(Semantic, new Object []{currentEnvironment, input});
+            methodInfo.Invoke(Semantic, new Object []{input});
             CompilerModel.Trace.Tracer.putLog("Called Method: " + semanticActionName, MethodInfo.GetCurrentMethod().ReflectedType.ToString());
 
         }
@@ -194,7 +194,7 @@ namespace APE
             while (!(CurrentState.FinalState && _stack.Empty))
             {
                 //if (!RunTransition(chain[i], i < chain.Length - 1 ? chain[i + 1] : null))
-                if (!RunTransition(chain.getNext(), chain.getLookAHead(), null))
+                if (!RunTransition(chain.getNext(), chain.getLookAHead()))
                 {
                     error = true;
                     break;

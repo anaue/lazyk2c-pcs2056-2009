@@ -51,6 +51,7 @@
     <Compile Include="APE\State.cs" />
     <Compile Include="APE\SubmachineCall.cs" />
     <Compile Include="APE\Transition.cs" />
+    <Compile Include="Lexer\Lexer.cs" />
     <Compile Include="Lexer\Num.cs" />
     <Compile Include="Lexer\Word.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

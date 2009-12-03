@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LazyKIDE", "LazyKIDE\LazyKIDE.csproj", "{72CDE0DF-AABA-4716-80D8-DE2E17E7696C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APE", "..\..\LazyK\Compilador Live+\CompilatorLivePlus\APEParser\APE.csproj", "{43F86D01-DF12-4C91-839D-35D407E22FAA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APE", "APEParser\APE.csproj", "{43F86D01-DF12-4C91-839D-35D407E22FAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompilerModel", "..\..\LazyK\Compilador Live+\CompilatorLivePlus\CompilerModel\CompilerModel.csproj", "{61D525FE-0447-4373-81D2-E2C0B7D11D45}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompilerModel", "CompilerModel\CompilerModel.csproj", "{61D525FE-0447-4373-81D2-E2C0B7D11D45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
