@@ -39,7 +39,7 @@ namespace CompilerModel.Semantic
         private Output _out;
         
         //
-        public const string _strOutEntra = "\t entra( \"{0}\" );";
+        public const string _strOutEntra = "\t entra( \'{0}\' );";
         public const string _strOutTentaReduzir = "\t tenta_reduzir() ;";
         public const string _strOutAbreEscopo = "\t novo_escopo(); ";
         public const string _strOutFechaEscopo = "\t fecha_escopo(); ";
