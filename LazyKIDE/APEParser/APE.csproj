@@ -55,9 +55,14 @@
     <Compile Include="Recognizer\Recognizer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ExecutionEnvironment\dlist.c" />
     <None Include="ExecutionEnvironment\environment.c">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ExecutionEnvironment\stdafx.c" />
+    <None Include="ExecutionEnvironment\stdafx.h" />
+    <None Include="ExecutionEnvironment\tenta_reduzir.c" />
+    <None Include="ExecutionEnvironment\tenta_reduzir.h" />
     <None Include="ExecutionEnvironment\treecode.c" />
     <None Include="Properties\app.manifest" />
   </ItemGroup>
