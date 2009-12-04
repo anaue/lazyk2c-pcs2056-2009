@@ -56,7 +56,12 @@ namespace CompilerModel.Semantic
             if (!Directory.Exists(directoryName))
                 Directory.CreateDirectory(directoryName);
             _writer = new StreamWriter(_pathName, false, Encoding.Default);
-            _writer.Write(_output.ToString() + _reservedArea.ToString());
+            string _endingProgram = SemanticActions._strOutImprime;
+
+            _endingProgram += String.Format(SemanticActions._strOutReturn, "0");
+            _endingProgram += SemanticActions._strOutMainClose;
+
+            _writer.Write(_output.ToString() + _endingProgram);
             _writer.Close();
         }
 

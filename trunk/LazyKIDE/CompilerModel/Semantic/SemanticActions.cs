@@ -37,22 +37,16 @@ namespace CompilerModel.Semantic
     public class SemanticActions
     {
         private Output _out;
-        private Symbol _reg1;
-        private Symbol _acc; // tipo do valor no acumulador
-        private int _sizeVAR;
-        
-        private int _typeCMD;
-        private int _typeBoolOper;
-        private int _typeTYPE;
         
         //
-        private const string REG1 = "REGA";
-        private const string REG2 = "REGB";
-        private const string REG3 = "REGC";
-        private const string LABELFALSE = "FALSE";
-        private const string TYPE_MVN_INT = "int";
-        private const string TYPE_MVN_FLOAT = "float";
-        private const string TYPE_MVN_BOOL = "bool";
+        public const string _strOutEntra = "\t entra( \"{0}\" );";
+        public const string _strOutTentaReduzir = "\t tenta_reduzir() ;";
+        public const string _strOutAbreEscopo = "\t novo_escopo(); ";
+        public const string _strOutFechaEscopo = "\t fecha_escopo(); ";
+        public const string _strOutImprime = "\t imprime(); ";
+        public const string _strOutMainOpen = " int main () {";
+        public const string _strOutMainClose = "\r\n}\r\n";
+        public const string _strOutReturn = "\r\n\t return {0};";
         //
 
         /// <summary>
@@ -63,10 +57,13 @@ namespace CompilerModel.Semantic
         public SemanticActions(string outputFile)
         {
             _out = new Output(outputFile);
-            _out.WriteCCodeLine("//NovaExpressao\r\n#include <stdio.h>");
             ExecutionEnvironment execEnv = new ExecutionEnvironment();
+
             execEnv.GetExecutionEnvFromFile();
             _out.WriteCCodeLine(execEnv.GetDefinitions());
+            _out.WriteCCodeLine(_strOutMainOpen);
+            _out.WriteCCodeLine(_strOutAbreEscopo);
+
         }
 
         public void SaveOutput()
@@ -82,11 +79,13 @@ namespace CompilerModel.Semantic
         }
         public void S_NEJE_2(Token _tok)
         {
-
+            _out.WriteCCodeLine(String.Format(_strOutEntra, (char)_tok.tag));
+            _out.WriteCCodeLine(_strOutTentaReduzir);
         }
         public void S_NEJE_3(Token _tok)
         {
-
+            _out.WriteCCodeLine(String.Format(_strOutEntra, (char)_tok.tag));
+            _out.WriteCCodeLine(_strOutTentaReduzir);
         }
         public void S_PROGRAM_1(Token _tok)
         {
@@ -94,59 +93,67 @@ namespace CompilerModel.Semantic
         }
         public void S_EXPR_i(Token _tok)
         {
-            _out.WriteCCodeLine("//got_i");
+            _out.WriteCCodeLine(String.Format(_strOutEntra, (char)_tok.tag));
+            _out.WriteCCodeLine(_strOutTentaReduzir);
         }
         public void S_EXPR_I(Token _tok)
         {
-            _out.WriteCCodeLine("//got_I");
+            _out.WriteCCodeLine(String.Format(_strOutEntra, (char)_tok.tag));
+            _out.WriteCCodeLine(_strOutTentaReduzir);
         }
         public void S_EXPR_K(Token _tok)
         {
-            _out.WriteCCodeLine("//got_K");
+            _out.WriteCCodeLine(String.Format(_strOutEntra, (char)_tok.tag));
+            _out.WriteCCodeLine(_strOutTentaReduzir);
         }
         public void S_EXPR_k(Token _tok)
         {
-            _out.WriteCCodeLine("//got_k");
+            _out.WriteCCodeLine(String.Format(_strOutEntra, (char)_tok.tag));
+            _out.WriteCCodeLine(_strOutTentaReduzir);
         }
         public void S_EXPR_S(Token _tok)
         {
-            _out.WriteCCodeLine("//got_S");
+            _out.WriteCCodeLine(String.Format(_strOutEntra, (char) _tok.tag));
+            _out.WriteCCodeLine(_strOutTentaReduzir);
         }
         public void S_EXPR_s(Token _tok)
         {
-            _out.WriteCCodeLine("//got_s");
+            _out.WriteCCodeLine(String.Format(_strOutEntra, (char)_tok.tag));
+            _out.WriteCCodeLine(_strOutTentaReduzir);
         }
         public void S_EXPR_Jot(Token _tok)
         {
-            _out.WriteCCodeLine("//got_Jot");
+
         }
         public void S_EXPR_CRASIS(Token _tok)
         {
-            _out.WriteCCodeLine("//got_crase");
+            _out.WriteCCodeLine(String.Format(_strOutEntra, (char)_tok.tag));
+            _out.WriteCCodeLine(_strOutTentaReduzir);
         }
         public void S_EXPR_STAR(Token _tok)
         {
-            _out.WriteCCodeLine("//got_star");
+            _out.WriteCCodeLine(String.Format(_strOutEntra, (char)_tok.tag));
+            _out.WriteCCodeLine(_strOutTentaReduzir);
         }
         public void S_EXPR_LEFTPAR(Token _tok)
         {
-            _out.WriteCCodeLine("//got_(");
+            _out.WriteCCodeLine(_strOutAbreEscopo);
         }
         public void S_EXPR_EXPR2(Token _tok)
         {
-            _out.WriteCCodeLine("//got_Expr2");
+            //_out.WriteCCodeLine("//got_Expr2");
         }
         public void S_EXPR_EXPR3(Token _tok)
         {
-            _out.WriteCCodeLine("//got_Expr3");
+            //_out.WriteCCodeLine("//got_Expr3");
         }
         public void S_EXPR_RIGHTPAR(Token _tok)
         {
-            _out.WriteCCodeLine("//got_)");
+            _out.WriteCCodeLine(_strOutFechaEscopo);
         }
         public void S_EXPR_EXPR4(Token _tok)
         {
-            _out.WriteCCodeLine("//got_Expr4");
+            //_out.WriteCCodeLine("//got_Expr4");
         }
 
         #endregion Lazy K
