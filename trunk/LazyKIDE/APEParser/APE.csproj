@@ -58,6 +58,7 @@
     <None Include="ExecutionEnvironment\environment.c">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ExecutionEnvironment\treecode.c" />
     <None Include="Properties\app.manifest" />
   </ItemGroup>
   <ItemGroup>
