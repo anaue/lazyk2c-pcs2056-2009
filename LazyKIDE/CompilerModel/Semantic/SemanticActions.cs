@@ -64,7 +64,9 @@ namespace CompilerModel.Semantic
         {
             _out = new Output(outputFile);
             _out.WriteCCodeLine("//NovaExpressao\r\n#include <stdio.h>");
-
+            ExecutionEnvironment execEnv = new ExecutionEnvironment();
+            execEnv.GetExecutionEnvFromFile();
+            _out.WriteCCodeLine(execEnv.GetDefinitions());
         }
 
         public void SaveOutput()
