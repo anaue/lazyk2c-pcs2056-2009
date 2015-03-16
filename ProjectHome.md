@@ -1,0 +1,1 @@
+compilador da linguagem lazyComb para a linguagem C
